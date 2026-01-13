@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
+    	//Final demo: shows successful reservation, failed quantity check, check-in/out
         System.out.println("=== Hotel Reservation System - Demo ===\n");
 
         HotelChain chain = new HotelChain("Luxury Chain");

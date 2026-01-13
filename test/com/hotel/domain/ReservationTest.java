@@ -54,4 +54,24 @@ class ReservationTest {
                 )
         );
     }
+    
+    @Test
+    void shouldThrowWhenReserverIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new Reservation(LocalDate.now(), LocalDate.of(2026, 4, 1), LocalDate.of(2026, 4, 5), null, 1003));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "null, valid end date",
+        "valid start, null"
+    })
+    void shouldThrowOnNullDates(String startStr, String endStr) {
+        LocalDate start = startStr.equals("null") ? null : LocalDate.parse(startStr);
+        LocalDate end = endStr.equals("null") ? null : LocalDate.parse(endStr);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                new Reservation(LocalDate.now(), start, end, dummyPayer, 1004));
+    }
 }
+
