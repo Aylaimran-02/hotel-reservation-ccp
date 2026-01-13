@@ -44,11 +44,26 @@ public class Main {
             System.out.println("Requested: " + res.getRequestedRooms().get(0).getQuantity() +
                                " × " + res.getRequestedRooms().get(0).getType().getKind());
 
+            // NEW: Failed reservation demo (only 3 rooms total, so 10 will fail)
+            System.out.println("\nAttempting to reserve 10 family rooms (should fail due to insufficient rooms)...");
+            try {
+                chain.makeReservation(
+                        hotel,
+                        LocalDate.of(2026, 2, 15),
+                        LocalDate.of(2026, 2, 20),
+                        family,
+                        payer,
+                        10
+                );
+            } catch (Exception e) {
+                System.out.println("FAILED (not enough rooms available): " + e.getMessage());
+            }
+
             // Demo check-in
             Room room101 = hotel.getRooms().get(0);
             System.out.println("\nCheck-in to room " + room101.getNumber() + "...");
             chain.checkIn(payer, room101);
-            System.out.println("Room " + room101.getNumber() + " is now occupied by " + 
+            System.out.println("Room " + room101.getNumber() + " is now occupied by " +
                                room101.getOccupant().getName().value());
 
             // Demo check-out
