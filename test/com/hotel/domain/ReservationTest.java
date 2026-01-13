@@ -37,7 +37,7 @@ class ReservationTest {
         assertThrows(IllegalArgumentException.class, () ->
             new Reservation(LocalDate.now(), LocalDate.of(2026, 3, 1), LocalDate.of(2026, 3, 5), dummyPayer, -5));
     }
-    
+
     @ParameterizedTest
     @CsvSource({
             "2026-02-10, 2026-02-14",
@@ -54,24 +54,23 @@ class ReservationTest {
                 )
         );
     }
-    
+
     @Test
     void shouldThrowWhenReserverIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
                 new Reservation(LocalDate.now(), LocalDate.of(2026, 4, 1), LocalDate.of(2026, 4, 5), null, 1003));
     }
 
-    @ParameterizedTest
-    @CsvSource({
-        "null, valid end date",
-        "valid start, null"
-    })
-    void shouldThrowOnNullDates(String startStr, String endStr) {
-        LocalDate start = startStr.equals("null") ? null : LocalDate.parse(startStr);
-        LocalDate end = endStr.equals("null") ? null : LocalDate.parse(endStr);
-
+    // NEW: Two separate tests for null dates (simpler and no parse error)
+    @Test
+    void shouldThrowWhenStartDateIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
-                new Reservation(LocalDate.now(), start, end, dummyPayer, 1004));
+                new Reservation(LocalDate.now(), null, LocalDate.of(2026, 4, 5), dummyPayer, 1004));
+    }
+
+    @Test
+    void shouldThrowWhenEndDateIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new Reservation(LocalDate.now(), LocalDate.of(2026, 4, 1), null, dummyPayer, 1004));
     }
 }
-
