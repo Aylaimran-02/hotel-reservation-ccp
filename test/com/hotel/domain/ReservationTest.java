@@ -30,6 +30,14 @@ class ReservationTest {
         );
     }
 
+    @Test
+    void shouldThrowWhenReservationNumberInvalid() {
+        assertThrows(IllegalArgumentException.class, () ->
+            new Reservation(LocalDate.now(), LocalDate.of(2026, 3, 1), LocalDate.of(2026, 3, 5), dummyPayer, 0));
+        assertThrows(IllegalArgumentException.class, () ->
+            new Reservation(LocalDate.now(), LocalDate.of(2026, 3, 1), LocalDate.of(2026, 3, 5), dummyPayer, -5));
+    }
+    
     @ParameterizedTest
     @CsvSource({
             "2026-02-10, 2026-02-14",
